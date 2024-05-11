@@ -12,13 +12,15 @@ let btnClear = document.getElementById("btnClear");
 let tableBody = document.getElementById("tableBody");
 let currentIndex = 0;
 let products = [];
-if(JSON.parse(localStorage.getItem("Products")) !== null){
+if (JSON.parse(localStorage.getItem("Products")) !== null) {
     products = JSON.parse(localStorage.getItem("Products"));
     displayProduct();
 }
-btnAdd.addEventListener("click",_=>{
-    if(validName() && validPrice() && validCategory() && validCondition()){
-        if(btnAdd.innerHTML === "Add Product"){
+btnAdd.addEventListener("click", _ => {
+    debugger
+
+    if (validName() && validPrice() && validCategory() && validCondition()) {
+        if (btnAdd.innerHTML === "Add Product") {
             let product = {
                 name: inputName.value,
                 price: inputPrice.value,
@@ -26,14 +28,16 @@ btnAdd.addEventListener("click",_=>{
                 condition: inputCondition.value
             };
             products.push(product)
-            localStorage.setItem("Products",JSON.stringify(products))
+            debugger
+            console.log(products)
+            localStorage.setItem("Products", JSON.stringify(products))
             displayProduct()
             clearForm()
             inputName.classList.remove("is-valid")
             inputPrice.classList.remove("is-valid")
             inputCategory.classList.remove("is-valid")
             inputCondition.classList.remove("is-valid")
-        } else if(btnAdd.innerHTML === "Update Product"){
+        } else if (btnAdd.innerHTML === "Update Product") {
             updateProduct()
             clearForm()
             inputName.classList.remove("is-valid")
@@ -42,16 +46,17 @@ btnAdd.addEventListener("click",_=>{
             inputCondition.classList.remove("is-valid")
         }
     }
-})
-function displayProduct(){
+}
+)
+function displayProduct() {
     let temp = "";
     let conditionRow = "";
-    for(let i=0;i<products.length;i++){
-        if(products[i].condition === "Excellent"){
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].condition === "Excellent") {
             conditionRow = `<td class="text-white bg-success">${products[i].condition}</td>`
-        } else if(products[i].condition === "Good"){
+        } else if (products[i].condition === "Good") {
             conditionRow = `<td class="text-white bg-warning">${products[i].condition}</td>`
-        } else if(products[i].condition === "Bad"){
+        } else if (products[i].condition === "Bad") {
             conditionRow = `<td class="text-white bg-danger">${products[i].condition}</td>`
         }
         temp += `
@@ -69,43 +74,43 @@ function displayProduct(){
     }
     tableBody.innerHTML = temp
 }
-btnClear.addEventListener("click",clearForm)
-function clearForm(){
+btnClear.addEventListener("click", clearForm)
+function clearForm() {
     inputName.value = ""
     inputPrice.value = ""
     inputCategory.value = ""
     inputCondition.value = ""
     inputName.classList.remove("is-valid")
     inputName.classList.remove("is-invalid")
-    alertName.classList.replace("d-block","d-none")
+    alertName.classList.replace("d-block", "d-none")
     inputPrice.classList.remove("is-valid")
     inputPrice.classList.remove("is-invalid")
-    alertPrice.classList.replace("d-block","d-none")
+    alertPrice.classList.replace("d-block", "d-none")
     inputCategory.classList.remove("is-valid")
     inputCategory.classList.remove("is-invalid")
-    alertCategory.classList.replace("d-block","d-none")    
+    alertCategory.classList.replace("d-block", "d-none")
     inputCondition.classList.remove("is-valid")
     inputCondition.classList.remove("is-invalid")
-    alertCondition.classList.replace("d-block","d-none")
+    alertCondition.classList.replace("d-block", "d-none")
 }
-function getProductInformation(index){
+function getProductInformation(index) {
     currentIndex = index
     inputName.value = products[currentIndex].name
     inputPrice.value = products[currentIndex].price
     inputCategory.value = products[currentIndex].category
     inputCondition.value = products[currentIndex].condition
-    btnAdd.classList.replace("btn-success","btn-warning")
+    btnAdd.classList.replace("btn-success", "btn-warning")
     btnAdd.innerHTML = "Update Product"
     inputName.classList.remove("is-invalid")
-    alertName.classList.replace("d-block","d-none")
+    alertName.classList.replace("d-block", "d-none")
     inputPrice.classList.remove("is-invalid")
-    alertPrice.classList.replace("d-block","d-none")
+    alertPrice.classList.replace("d-block", "d-none")
     inputCategory.classList.remove("is-invalid")
-    alertCategory.classList.replace("d-block","d-none")    
+    alertCategory.classList.replace("d-block", "d-none")
     inputCondition.classList.remove("is-invalid")
-    alertCondition.classList.replace("d-block","d-none")
+    alertCondition.classList.replace("d-block", "d-none")
 }
-function updateProduct(){
+function updateProduct() {
     let product = {
         name: inputName.value,
         price: inputPrice.value,
@@ -114,25 +119,25 @@ function updateProduct(){
     };
     products[currentIndex] = product
     displayProduct()
-    localStorage.setItem("Products",JSON.stringify(products))
-    btnAdd.classList.replace("btn-warning","btn-success")
+    localStorage.setItem("Products", JSON.stringify(products))
+    btnAdd.classList.replace("btn-warning", "btn-success")
     btnAdd.innerHTML = "Add Product"
 }
-function deleteProduct(index){
-    products.splice(index,1)
+function deleteProduct(index) {
+    products.splice(index, 1)
     displayProduct()
-    localStorage.setItem("Products",JSON.stringify(products))
+    localStorage.setItem("Products", JSON.stringify(products))
 }
-inputSearch.addEventListener("keyup",_=>{
+inputSearch.addEventListener("keyup", _ => {
     let temp = "";
     let conditionRow = "";
-    for(let i=0;i<products.length;i++){
-        if(products[i].name.toLowerCase().includes(inputSearch.value.toLowerCase())){
-            if(products[i].condition === "Excellent"){
+    for (let i = 0; i < products.length; i++) {
+        if (products[i].name.toLowerCase().includes(inputSearch.value.toLowerCase())) {
+            if (products[i].condition === "Excellent") {
                 conditionRow = `<td class="text-white bg-success">${products[i].condition}</td>`
-            } else if(products[i].condition === "Good"){
+            } else if (products[i].condition === "Good") {
                 conditionRow = `<td class="text-white bg-warning">${products[i].condition}</td>`
-            } else if(products[i].condition === "Bad"){
+            } else if (products[i].condition === "Bad") {
                 conditionRow = `<td class="text-white bg-danger">${products[i].condition}</td>`
             }
             temp += `
@@ -151,59 +156,60 @@ inputSearch.addEventListener("keyup",_=>{
     }
     tableBody.innerHTML = temp
 })
-inputName.addEventListener("keyup",validName)
-inputPrice.addEventListener("keyup",validPrice)
-function validName(){
+inputName.addEventListener("keyup", validName)
+inputPrice.addEventListener("keyup", validPrice)
+function validName() {
     let regex = /^[A-Z][a-zA-Z0-9 ]+$/
-    if(regex.test(inputName.value)){
+    if (regex.test(inputName.value)) {
         inputName.classList.add("is-valid")
         inputName.classList.remove("is-invalid")
-        alertName.classList.replace("d-block","d-none")
+        alertName.classList.replace("d-block", "d-none")
         return true
-    } else{
+    } else {
         inputName.classList.add("is-invalid")
         inputName.classList.remove("is-valid")
-        alertName.classList.replace("d-none","d-block")
+        alertName.classList.replace("d-none", "d-block")
         return false
     }
 }
-function validPrice(){
+
+function validPrice() {
     let regex = /^[1-9][0-9]{2,}$/
-    if(regex.test(inputPrice.value)){
+    if (regex.test(inputPrice.value)) {
         inputPrice.classList.add("is-valid")
         inputPrice.classList.remove("is-invalid")
-        alertPrice.classList.replace("d-block","d-none")
+        alertPrice.classList.replace("d-block", "d-none")
         return true
-    } else{
+    } else {
         inputPrice.classList.add("is-invalid")
         inputPrice.classList.remove("is-valid")
-        alertPrice.classList.replace("d-none","d-block")
+        alertPrice.classList.replace("d-none", "d-block")
         return false
     }
 }
-function validCategory(){
-    if(inputCategory.value === ""){
+function validCategory() {
+    if (inputCategory.value === "") {
         inputCategory.classList.add("is-invalid")
         inputCategory.classList.remove("is-valid")
-        alertCategory.classList.replace("d-none","d-block")
+        alertCategory.classList.replace("d-none", "d-block")
         return false
-    } else{
+    } else {
         inputCategory.classList.add("is-valid")
         inputCategory.classList.remove("is-invalid")
-        alertCategory.classList.replace("d-block","d-none")
+        alertCategory.classList.replace("d-block", "d-none")
         return true
     }
 }
-function validCondition(){
-    if(inputCondition.value === ""){
+function validCondition() {
+    if (inputCondition.value === "") {
         inputCondition.classList.add("is-invalid")
         inputCondition.classList.remove("is-valid")
-        alertCondition.classList.replace("d-none","d-block")
+        alertCondition.classList.replace("d-none", "d-block")
         return false
-    } else{
+    } else {
         inputCondition.classList.add("is-valid")
         inputCondition.classList.remove("is-invalid")
-        alertCondition.classList.replace("d-block","d-none")
+        alertCondition.classList.replace("d-block", "d-none")
         return true
     }
 }
